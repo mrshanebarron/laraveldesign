@@ -1,59 +1,233 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel Design
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A WordPress-like CMS package for Laravel with a **Wix-style visual page builder**. Build beautiful pages with drag-and-drop, or use the classic editor for blog posts.
 
-## About Laravel
+**[Live Demo](https://laraveldesign.demo.sbarron.com)** · **[Package Repo](https://github.com/mrshanebarron/laraveldesign-package)** · **[Website](https://laraveldesign.com)**
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **Visual Page Builder** - Drag-and-drop editor powered by GrapesJS
+- **Pre-built Blocks** - Hero sections, features grids, testimonials, pricing tables, CTAs, galleries, contact forms, FAQs
+- **Responsive Controls** - Preview on desktop, tablet, and mobile
+- **Live Preview** - See your changes in real-time
+- **Classic Editor** - Traditional rich text editing for posts
+- **Full CMS** - Posts, pages, categories, tags, menus, media library
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Requirements
 
-## Learning Laravel
+- PHP 8.2+
+- Laravel 11.x or 12.x
+- Filament 3.x
+- Livewire 3.x
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## Installation
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Install via Composer:
 
-## Laravel Sponsors
+```bash
+composer require mrshanebarron/laraveldesign
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Run the install command:
 
-### Premium Partners
+```bash
+php artisan laraveldesign:install
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+This publishes the config and migrations, runs migrations, creates the storage link, and sets up default menus.
 
-## Contributing
+Add the plugin to your Filament panel provider:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```php
+use MrShaneBarron\LaravelDesign\Filament\LaravelDesignPlugin;
 
-## Code of Conduct
+public function panel(Panel $panel): Panel
+{
+    return $panel
+        // ...
+        ->plugins([
+            LaravelDesignPlugin::make(),
+        ]);
+}
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Publish the config file (optional):
 
-## Security Vulnerabilities
+```bash
+php artisan vendor:publish --tag=laraveldesign-config
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Visual Page Builder
+
+The visual page builder gives you Wix-like editing capabilities:
+
+1. Create or edit a page in Filament admin
+2. Click "Visual Editor" button to launch the drag-and-drop builder
+3. Drag blocks from the left panel onto your page
+4. Click any element to edit text, styles, or settings
+5. Use device buttons to preview responsive layouts
+6. Click Save to publish your changes
+
+### Available Blocks
+
+| Block | Description |
+|-------|-------------|
+| Hero Section | Full-width header with headline, subtext, and CTA |
+| Text Block | Rich text content area |
+| Image + Text | Side-by-side layout for features |
+| Features Grid | 3-column feature showcase |
+| Testimonials | Customer quotes with avatars |
+| Pricing Table | 3-tier pricing comparison |
+| Call to Action | Conversion-focused section |
+| Image Gallery | Grid of images |
+| Contact Form | Name, email, message form |
+| FAQ | Accordion-style Q&A |
+| 2/3 Columns | Layout containers |
+| Basic elements | Text, images, buttons, dividers, spacers |
+
+## Content Management
+
+- **Posts** - Blog posts with categories, tags, featured images, and SEO fields
+- **Pages** - Static pages with hierarchical structure and custom templates
+- **Categories** - Hierarchical categories for organizing posts
+- **Tags** - Simple tags for post classification
+- **Menus** - Flexible menu builder with nested items
+- **Media** - Media library for images, videos, and documents
+
+### Filament Admin Panel
+
+Full Filament 3 integration with resources for:
+- Posts (with rich editor, categories, tags, SEO)
+- Pages (with parent/child hierarchy, templates)
+- Categories (with nesting)
+- Tags
+- Menus (with nested menu items)
+- Media Library
+
+### Frontend Components
+
+#### Menu Component
+```blade
+<x-laraveldesign::menu location="header" />
+```
+
+With custom classes:
+```blade
+<x-laraveldesign::menu
+    location="header"
+    class="main-nav"
+    itemClass="nav-item"
+    linkClass="nav-link"
+    activeClass="active"
+/>
+```
+
+#### Recent Posts
+```blade
+<x-laraveldesign::recent-posts :limit="5" />
+```
+
+#### Categories List
+```blade
+<x-laraveldesign::categories :showCount="true" />
+```
+
+#### Tags Cloud
+```blade
+<x-laraveldesign::tags />
+```
+
+## Configuration
+
+```php
+// config/laraveldesign.php
+
+return [
+    // Layout to extend for frontend views
+    'layout' => 'layouts.app',
+
+    // Section name for content
+    'content_section' => 'content',
+
+    // Blog settings
+    'blog_prefix' => 'blog',
+    'blog_title' => 'Blog',
+    'posts_per_page' => 10,
+
+    // Media settings
+    'media' => [
+        'disk' => 'public',
+        'directory' => 'media',
+        'max_size' => 51200, // 50MB
+    ],
+
+    // Menu locations
+    'menu_locations' => [
+        'header' => 'Header Menu',
+        'footer' => 'Footer Menu',
+        'sidebar' => 'Sidebar Menu',
+    ],
+
+    // Page templates
+    'page_templates' => [
+        'default' => 'Default',
+        'home' => 'Homepage',
+        'full-width' => 'Full Width',
+        'sidebar' => 'With Sidebar',
+    ],
+];
+```
+
+## Routes
+
+The package automatically registers these routes:
+
+| Route | Description |
+|-------|-------------|
+| `/blog` | Blog index |
+| `/blog/{slug}` | Single post |
+| `/category/{slug}` | Category archive |
+| `/tag/{slug}` | Tag archive |
+| `/{slug}` | Static pages (catch-all) |
+
+## Customizing Views
+
+Publish views to customize:
+
+```bash
+php artisan vendor:publish --tag=laraveldesign-views
+```
+
+Views will be published to `resources/views/vendor/laraveldesign/`.
+
+## Using Models Directly
+
+```php
+use MrShaneBarron\LaravelDesign\Models\Post;
+use MrShaneBarron\LaravelDesign\Models\Category;
+use MrShaneBarron\LaravelDesign\Models\Tag;
+use MrShaneBarron\LaravelDesign\Models\Menu;
+use MrShaneBarron\LaravelDesign\Models\Media;
+
+// Get published posts
+$posts = Post::posts()->published()->get();
+
+// Get published pages
+$pages = Post::pages()->published()->get();
+
+// Get menu by location
+$menu = Menu::getByLocation('header');
+
+// Get categories with post count
+$categories = Category::withCount('posts')->get();
+```
+
+## About This Repo
+
+This repository is the **demo application** — a full Laravel 12 install with the LaravelDesign package loaded locally from `packages/`. The live demo runs at [laraveldesign.demo.sbarron.com](https://laraveldesign.demo.sbarron.com).
+
+The **installable Composer package** lives at [mrshanebarron/laraveldesign-package](https://github.com/mrshanebarron/laraveldesign-package).
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+MIT License. See LICENSE file for details.
