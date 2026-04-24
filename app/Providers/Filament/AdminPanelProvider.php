@@ -9,6 +9,7 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
+use Filament\FontProviders\LocalFontProvider;
 use Filament\Support\Colors\Color;
 use Filament\Widgets;
 use MrShaneBarron\LaravelDesign\Filament\LaravelDesignPlugin;
@@ -31,6 +32,12 @@ class AdminPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Amber,
             ])
+            // Opt out of Filament's default bunny.net Inter CDN font.
+            // Passing a system-ui name with LocalFontProvider produces no
+            // @font-face rule, falling back to the browser's system stack.
+            // Avoids Chrome Local Network Access popups on macOS and keeps
+            // admin pages loadable under strict Content-Security-Policy.
+            ->font('system-ui', provider: LocalFontProvider::class)
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
